@@ -110,5 +110,6 @@ with right_col:
     if st.button("Send to AI"):
         st.warning(
             "AI Agent will be connected in the next step "
-            "(LangGraph +
-          
+            "(LangGraph + Groq)."
+        )
+        
