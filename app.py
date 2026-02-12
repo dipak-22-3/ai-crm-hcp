@@ -137,15 +137,22 @@ def decide_action(state: AgentState):
 # -------------------------------
 graph = StateGraph(AgentState)
 
+# decision node
+graph.add_node("decider", lambda state: state)
+
+# tool nodes
 graph.add_node("log", log_interaction_tool)
 graph.add_node("edit", edit_interaction_tool)
 graph.add_node("summarize", summarize_tool)
 graph.add_node("sentiment", sentiment_tool)
 graph.add_node("followup", followup_tool)
 
-graph.set_entry_point(decide_action)
+# entry point MUST be a node
+graph.set_entry_point("decider")
 
+# conditional routing
 graph.add_conditional_edges(
+    "decider",
     decide_action,
     {
         "log": "log",
@@ -156,6 +163,7 @@ graph.add_conditional_edges(
     }
 )
 
+# end all tools
 graph.add_edge("log", END)
 graph.add_edge("edit", END)
 graph.add_edge("summarize", END)
@@ -163,6 +171,7 @@ graph.add_edge("sentiment", END)
 graph.add_edge("followup", END)
 
 agent = graph.compile()
+
 
 # -------------------------------
 # UI LAYOUT
