@@ -45,11 +45,16 @@ conn.commit()
 # -------------------------------
 # LLM (Groq)
 # -------------------------------
+import os
+
 llm = ChatGroq(
     model="gemma2-9b-it",
+    groq_api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.3
 )
-
+if not os.getenv("GROQ_API_KEY"):
+    st.error("❌ GROQ_API_KEY not found in environment.")
+    
 # -------------------------------
 # LANGGRAPH STATE
 # -------------------------------
